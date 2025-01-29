@@ -74,10 +74,19 @@ function markTaskDone(taskId) {
     }
 }
 
-function printAllTask() {
+function printAllTasks() {
     const allTasks = JSON.parse(getAllTasks());
     console.log("TASK LIST =>")
     allTasks["tasks"].forEach(value => {
+        console.log(` ID: ${value.id},\n DESCRIPTION: ${value.description},\n STATUS: ${value.status}`)
+        console.log("------------//-------------------------//--------------------//----------------")
+    });
+}
+
+function printTodoTasks(status) {
+    const allTasks = JSON.parse(getAllTasks());
+    console.log("TASK LIST TODO =>")
+    allTasks["tasks"].filter(value => value.status === status).forEach(value => {
         console.log(` ID: ${value.id},\n DESCRIPTION: ${value.description},\n STATUS: ${value.status}`)
         console.log("------------//-------------------------//--------------------//----------------")
     });
@@ -89,5 +98,6 @@ module.exports = {
     deleteTask,
     markTaskInProgress,
     markTaskDone,
-    printAllTask
+    printAllTasks,
+    printTodoTasks
 };

@@ -3,15 +3,16 @@ const { addTask,
     updateTask,
     deleteTask,
     markTaskInProgress,
-    markTaskDone,
-    printAllTask
+    markTaskDone, printAllTasks, printTodoTasks,
+
 } = require("./crud-task");
 
 const arguments = process.argv.slice(2, process.argv.length);
-const action = arguments[0];
+let action = arguments[0];
 let description = arguments[1];
 
 let taskId = "";
+let status = "";
 
 const ADD_ACTION = "add";
 const UPDATE_ACTION = "update";
@@ -26,7 +27,8 @@ const actionsAllowed = {
     "delete": ({taskId}) => deleteTask(taskId),
     "mark-in-progress": ({ taskId }) => markTaskInProgress(taskId),
     "mark-done": ({ taskId }) => markTaskDone(taskId),
-    "list": ({}) => printAllTask()
+    "list": ({}) => printAllTasks(),
+    "list-todo": ({status}) => printTodoTasks(status)
 }
 
 if(!(action in actionsAllowed)) throw new Error(`action ${action} invalid`);
@@ -35,11 +37,16 @@ if(action === ADD_ACTION) description = arguments[1];
 else if(action === UPDATE_ACTION || action === DELETE_ACTION) {
     taskId = arguments[1];
     description = arguments[2];
-} else if(action === MARK_IN_PROGRESS_ACTION || action === MARK_DONE_ACTION || action === LIST_ACTION) taskId = arguments[1];
+} else if(action === MARK_IN_PROGRESS_ACTION || action === MARK_DONE_ACTION) taskId = arguments[1];
+else if(action === LIST_ACTION) {
+    status = arguments[1];
+    action = `${action}-${status}`
+}
 
 const data = {
     taskId,
-    description
+    description,
+    status
 }
 
 actionsAllowed[action](data);
