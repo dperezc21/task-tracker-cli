@@ -1,7 +1,14 @@
 const {getAllTasks, validIfExistsFile, writeInFile} = require("./data-base-json");
+const {TaskNotFoundError} = require("./exceptions");
 
 const buildTask = (description, status = "todo") => {
     return { description, status, createdAt: new Date(), updatedAt: new Date() }
+}
+
+function validTaskExists(taskId, tasks) {
+    const findTask = tasks.find(value => value.id == taskId);
+    if(findTask == -1 || !findTask) throw new TaskNotFoundError(`task with id ${taskId} not exists`)
+    return findTask;
 }
 
 function addTask(description) {
@@ -15,16 +22,17 @@ function addTask(description) {
 }
 
 function updateTask(taskId, description) {
-    const allTasks = JSON.parse(getAllTasks());
-    const findTask = allTasks["tasks"].find(value => value.id == taskId);
-    if(findTask == -1 || !findTask) {
-        console.error(`task with id ${taskId} not exists`);
-        return;
+    try {
+        const allTasks = JSON.parse(getAllTasks());
+        const findTask = validTaskExists(taskId, allTasks["tasks"]);
+        findTask.description = description;
+        findTask.updatedAt = new Date();
+        allTasks["tasks"] = allTasks["tasks"].map(value => value.id == taskId ? findTask : value);
+        writeInFile(allTasks);
+        console.log("task updated");
+    } catch (e) {
+        console.error(e);
     }
-    findTask.description = description;
-    allTasks["tasks"] = allTasks["tasks"].map(value => value.id == taskId ? findTask : value);
-    writeInFile(allTasks);
-    console.log("task updated");
 }
 
 function deleteTask(taskId) {
@@ -34,8 +42,23 @@ function deleteTask(taskId) {
     console.log("task deleted");
 }
 
+function markTaskInProgress(taskId) {
+    try {
+        const allTasks = JSON.parse(getAllTasks());
+        const findTask = validTaskExists(taskId, allTasks["tasks"]);
+        findTask.status = "in-progress";
+        findTask.updatedAt = new Date();
+        allTasks["tasks"] = allTasks["tasks"].map(value => value.id == taskId ? findTask : value);
+        writeInFile(allTasks);
+        console.log("task marked in progress")
+    } catch (e) {
+        console.error(e);
+    }
+}
+
 module.exports = {
     addTask,
     updateTask,
-    deleteTask
+    deleteTask,
+    markTaskInProgress
 };
