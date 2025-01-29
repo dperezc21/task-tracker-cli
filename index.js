@@ -1,11 +1,10 @@
 
 const { addTask,
     updateTask,
-    deleteTask,
-    markTaskInProgress,
-    markTaskDone,
+    deleteTask
 } = require("./crud-task");
 const { printAllTasks, printDoneTasks, printInProgressTasks, printTodoTasks } = require("./printTasks");
+const { markTaskDone, markTaskInProgress } = require("./task-status");
 
 const arguments = process.argv.slice(2, process.argv.length);
 let action = arguments[0];
