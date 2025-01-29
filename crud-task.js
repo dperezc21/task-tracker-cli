@@ -25,10 +25,17 @@ function updateTask(taskId, description) {
     allTasks["tasks"] = allTasks["tasks"].map(value => value.id == taskId ? findTask : value);
     writeInFile(allTasks);
     console.log("task updated");
+}
 
+function deleteTask(taskId) {
+    const allTasks = JSON.parse(getAllTasks());
+    allTasks["tasks"] = allTasks["tasks"].filter(value => value.id != taskId);
+    writeInFile(allTasks);
+    console.log("task deleted");
 }
 
 module.exports = {
     addTask,
-    updateTask
+    updateTask,
+    deleteTask
 };
