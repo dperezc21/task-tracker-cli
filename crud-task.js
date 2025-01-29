@@ -11,11 +11,16 @@ function validTaskExists(taskId, tasks) {
     return findTask;
 }
 
+function newTaskId(tasks) {
+    if(!tasks?.length) return 1;
+    return tasks.at(-1).id + 1;
+}
+
 function addTask(description) {
     validIfExistsFile();
     const task = buildTask(description);
     const allTasks = "tasks" in JSON.parse(getAllTasks()) ? JSON.parse(getAllTasks()) : { "tasks" : [] };
-    task.id = allTasks["tasks"].length + 1;
+    task.id = newTaskId(allTasks["tasks"]);
     allTasks["tasks"].push(task);
     writeInFile(allTasks);
     console.log("task added");

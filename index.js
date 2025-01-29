@@ -1,4 +1,3 @@
-#!/usr/bin/env node
 
 const { addTask,
     updateTask,
@@ -19,6 +18,7 @@ const UPDATE_ACTION = "update";
 const DELETE_ACTION = "delete";
 const MARK_IN_PROGRESS_ACTION = "mark-in-progress";
 const MARK_DONE_ACTION = "mark-done";
+const LIST_ACTION = "list";
 
 const actionsAllowed = {
     "add": ({description}) => addTask(description),
@@ -35,7 +35,7 @@ if(action === ADD_ACTION) description = arguments[1];
 else if(action === UPDATE_ACTION || action === DELETE_ACTION) {
     taskId = arguments[1];
     description = arguments[2];
-} else if(action === MARK_IN_PROGRESS_ACTION || action === MARK_DONE_ACTION || action === "list") taskId = arguments[1];
+} else if(action === MARK_IN_PROGRESS_ACTION || action === MARK_DONE_ACTION || action === LIST_ACTION) taskId = arguments[1];
 
 const data = {
     taskId,
