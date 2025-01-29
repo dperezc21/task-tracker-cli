@@ -42,17 +42,30 @@ function deleteTask(taskId) {
     console.log("task deleted");
 }
 
+function updateTaskStatus(taskId, status)  {
+    const allTasks = JSON.parse(getAllTasks());
+    const findTask = validTaskExists(taskId, allTasks["tasks"]);
+    findTask.status = status;
+    findTask.updatedAt = new Date();
+    allTasks["tasks"] = allTasks["tasks"].map(value => value.id == taskId ? findTask : value);
+    writeInFile(allTasks);
+}
+
 function markTaskInProgress(taskId) {
     try {
-        const allTasks = JSON.parse(getAllTasks());
-        const findTask = validTaskExists(taskId, allTasks["tasks"]);
-        findTask.status = "in-progress";
-        findTask.updatedAt = new Date();
-        allTasks["tasks"] = allTasks["tasks"].map(value => value.id == taskId ? findTask : value);
-        writeInFile(allTasks);
+        updateTaskStatus(taskId, "in-progress");
         console.log("task marked in progress")
     } catch (e) {
-        console.error(e);
+        console.error(e.message);
+    }
+}
+
+function markTaskDone(taskId) {
+    try {
+        updateTaskStatus(taskId, "done");
+        console.log("task marked done");
+    } catch (e) {
+        console.error(e.message);
     }
 }
 
@@ -60,5 +73,6 @@ module.exports = {
     addTask,
     updateTask,
     deleteTask,
-    markTaskInProgress
+    markTaskInProgress,
+    markTaskDone
 };
