@@ -69,10 +69,20 @@ function markTaskDone(taskId) {
     }
 }
 
+function printAllTask() {
+    const allTasks = JSON.parse(getAllTasks());
+    console.log("TASK LIST =>")
+    allTasks["tasks"].forEach(value => {
+        console.log(` ID: ${value.id},\n DESCRIPTION: ${value.description},\n STATUS: ${value.status}`)
+        console.log("------------//-------------------------//--------------------//----------------")
+    });
+}
+
 module.exports = {
     addTask,
     updateTask,
     deleteTask,
     markTaskInProgress,
-    markTaskDone
+    markTaskDone,
+    printAllTask
 };
