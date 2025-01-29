@@ -19,9 +19,9 @@ function newTaskId(tasks) {
 function addTask(description) {
     validIfExistsFile();
     const task = buildTask(description);
-    const allTasks = "tasks" in JSON.parse(getAllTasks()) ? JSON.parse(getAllTasks()) : { "tasks" : [] };
+    let allTasks = getAllTasks() ? JSON.parse(getAllTasks()) : { "tasks" : [] };
     task.id = newTaskId(allTasks["tasks"]);
-    allTasks["tasks"].push(task);
+    if("tasks" in allTasks) allTasks["tasks"].push(task); else allTasks = {tasks: [task]}
     writeInFile(allTasks);
     console.log(`Task added successfully (ID: ${task.id})`);
 }
