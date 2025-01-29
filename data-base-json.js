@@ -11,7 +11,7 @@ function getAllTasks() {
 }
 
 function writeInFile(task, fileName = fileTaskName) {
-    return fs.writeFileSync(fileName, JSON.stringify(task));
+    fs.writeFileSync(fileName, JSON.stringify(task));
 }
 
 module.exports = {

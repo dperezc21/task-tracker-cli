@@ -11,11 +11,21 @@ function addTask(description) {
     task.id = allTasks["tasks"].length + 1;
     allTasks["tasks"].push(task);
     writeInFile(allTasks);
+    console.log("task added");
 }
 
 function updateTask(taskId, description) {
     const allTasks = JSON.parse(getAllTasks());
-    
+    const findTask = allTasks["tasks"].find(value => value.id == taskId);
+    if(findTask == -1 || !findTask) {
+        console.error(`task with id ${taskId} not exists`);
+        return;
+    }
+    findTask.description = description;
+    allTasks["tasks"] = allTasks["tasks"].map(value => value.id == taskId ? findTask : value);
+    writeInFile(allTasks);
+    console.log("task updated");
+
 }
 
 module.exports = {
