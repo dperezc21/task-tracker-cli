@@ -3,7 +3,7 @@ const { addTask,
     updateTask,
     deleteTask,
     markTaskInProgress,
-    markTaskDone, printAllTasks, printTodoTasks,
+    markTaskDone, printAllTasks, printTodoTasks, printInProgressTasks, printDoneTasks,
 
 } = require("./crud-task");
 
@@ -28,7 +28,9 @@ const actionsAllowed = {
     "mark-in-progress": ({ taskId }) => markTaskInProgress(taskId),
     "mark-done": ({ taskId }) => markTaskDone(taskId),
     "list": ({}) => printAllTasks(),
-    "list-todo": ({status}) => printTodoTasks(status)
+    "list-todo": ({status}) => printTodoTasks(status),
+    "list-in-progress": ({status}) => printInProgressTasks(status),
+    "list-done": ({status}) => printDoneTasks(status)
 }
 
 if(!(action in actionsAllowed)) throw new Error(`action ${action} invalid`);

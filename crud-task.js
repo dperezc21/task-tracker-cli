@@ -74,22 +74,41 @@ function markTaskDone(taskId) {
     }
 }
 
-function printAllTasks() {
-    const allTasks = JSON.parse(getAllTasks());
-    console.log("TASK LIST =>")
-    allTasks["tasks"].forEach(value => {
+function printTasks(tasks) {
+    tasks.forEach(value => {
         console.log(` ID: ${value.id},\n DESCRIPTION: ${value.description},\n STATUS: ${value.status}`)
         console.log("------------//-------------------------//--------------------//----------------")
     });
 }
 
+function printAllTasks() {
+    const allTasks = JSON.parse(getAllTasks());
+    console.log("TASK LIST =>")
+    printTasks(allTasks["tasks"]);
+}
+
 function printTodoTasks(status) {
     const allTasks = JSON.parse(getAllTasks());
-    console.log("TASK LIST TODO =>")
-    allTasks["tasks"].filter(value => value.status === status).forEach(value => {
-        console.log(` ID: ${value.id},\n DESCRIPTION: ${value.description},\n STATUS: ${value.status}`)
-        console.log("------------//-------------------------//--------------------//----------------")
-    });
+    const todoTasks = allTasks["tasks"].filter(value => value.status === status);
+    if(!todoTasks.length) return;
+    console.log("TODO TASK LIST =>")
+    printTasks(todoTasks);
+}
+
+function printInProgressTasks(status) {
+    const allTasks = JSON.parse(getAllTasks());
+    const inProgressTasks = allTasks["tasks"].filter(value => value.status === status);
+    if(!inProgressTasks.length) return;
+    console.log("IN PROGRESS TASK LIST =>")
+    printTasks(inProgressTasks);
+}
+
+function printDoneTasks(status) {
+    const allTasks = JSON.parse(getAllTasks());
+    const doneTasks = allTasks["tasks"].filter(value => value.status === status);
+    if(!doneTasks.length) return;
+    console.log("DONE TASK LIST =>")
+    printTasks(doneTasks);
 }
 
 module.exports = {
@@ -99,5 +118,7 @@ module.exports = {
     markTaskInProgress,
     markTaskDone,
     printAllTasks,
-    printTodoTasks
+    printTodoTasks,
+    printDoneTasks,
+    printInProgressTasks
 };
