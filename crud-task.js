@@ -23,7 +23,7 @@ function addTask(description) {
     task.id = newTaskId(allTasks["tasks"]);
     allTasks["tasks"].push(task);
     writeInFile(allTasks);
-    console.log("task added");
+    console.log(`Task added successfully (ID: ${task.id})`);
 }
 
 function updateTask(taskId, description) {
@@ -34,7 +34,7 @@ function updateTask(taskId, description) {
         findTask.updatedAt = new Date();
         allTasks["tasks"] = allTasks["tasks"].map(value => value.id == taskId ? findTask : value);
         writeInFile(allTasks);
-        console.log("task updated");
+        console.log("Task updated successfully");
     } catch (e) {
         console.error(e);
     }
@@ -44,7 +44,7 @@ function deleteTask(taskId) {
     const allTasks = JSON.parse(getAllTasks());
     allTasks["tasks"] = allTasks["tasks"].filter(value => value.id != taskId);
     writeInFile(allTasks);
-    console.log("task deleted");
+    console.log("Task deleted successfully");
 }
 
 function updateTaskStatus(taskId, status)  {
