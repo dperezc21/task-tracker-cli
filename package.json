@@ -1,15 +1,19 @@
 {
   "name": "task-tracker-cli",
   "version": "1.0.0",
-  "main": "index.ts",
+  "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "bin": {
     "task-cli": "index.js"
   },
-  "keywords": [],
-  "author": "",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/dperezc21/task-tracker-cli.git"
+  },
+  "keywords": ["CLI", "json", "tasks"],
+  "author": "Davier Enrique Perez Cabrera",
   "license": "ISC",
   "description": ""
 }
