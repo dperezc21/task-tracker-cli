@@ -32,22 +32,22 @@ const actionsAllowed = {
     "list-done": ({status}) => printDoneTasks(status)
 }
 
-if(!(action in actionsAllowed)) throw new Error(`action ${action} invalid`);
+try {
+    if(!(action in actionsAllowed)) throw new Error(`action ${action} invalid`);
 
-if(action === ADD_ACTION) description = arguments[1];
-else if(action === UPDATE_ACTION || action === DELETE_ACTION) {
-    taskId = arguments[1];
-    description = arguments[2];
-} else if(action === MARK_IN_PROGRESS_ACTION || action === MARK_DONE_ACTION) taskId = arguments[1];
-else if(action === LIST_ACTION) {
-    status = arguments[1];
-    action = `${action}-${status}`
+    if(action === ADD_ACTION) description = arguments[1];
+    else if(action === UPDATE_ACTION || action === DELETE_ACTION) {
+        taskId = arguments[1];
+        description = arguments[2];
+    } else if(action === MARK_IN_PROGRESS_ACTION || action === MARK_DONE_ACTION) taskId = arguments[1];
+    else if(action === LIST_ACTION) {
+        status = arguments[1];
+        action = `${action}${status ? '-'+status : ''}`;
+    }
+
+    const data = { taskId, description, status }
+
+    actionsAllowed[action](data);
+} catch (error) {
+    console.error(error.message);
 }
-
-const data = {
-    taskId,
-    description,
-    status
-}
-
-actionsAllowed[action](data);
