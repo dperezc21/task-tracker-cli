@@ -1,25 +1,25 @@
-import {getAllTasks} from "./data-base-json";
+const {getAllTasks} = require("./data-base-json");
 
 class PrintTasks {
 
-    #printTasks(tasks) {
+    #printTasks = (tasks) => {
         tasks.forEach(value => {
             console.log(` ID: ${value.id},\n DESCRIPTION: ${value.description},\n STATUS: ${value.status}`)
             console.log("------------//-------------------------//--------------------//----------------")
         });
     }
 
-    #filterTaskByStatus(tasks, status) {
+    #filterTaskByStatus = (tasks, status) => {
         return tasks.filter(value => value.status === status);
     }
 
-    printAllTasks() {
+    printAllTasks = () => {
         const allTasks = JSON.parse(getAllTasks());
         console.log("TASK LIST =>")
         this.#printTasks(allTasks["tasks"]);
     }
 
-    printTodoTasks(status) {
+    printTodoTasks = (status) => {
         const allTasks = JSON.parse(getAllTasks());
         const todoTasks = this.#filterTaskByStatus(allTasks["tasks"], status);
         if(!todoTasks.length) return;
@@ -27,7 +27,7 @@ class PrintTasks {
         this.#printTasks(todoTasks);
     }
 
-    printInProgressTasks(status) {
+    printInProgressTasks = (status) => {
         const allTasks = JSON.parse(getAllTasks());
         const inProgressTasks = this.#filterTaskByStatus(allTasks["tasks"], status);
         if(!inProgressTasks.length) return;
@@ -35,7 +35,7 @@ class PrintTasks {
         this.#printTasks(inProgressTasks);
     }
 
-    printDoneTasks(status) {
+    printDoneTasks = (status) => {
         const allTasks = JSON.parse(getAllTasks());
         const doneTasks = this.#filterTaskByStatus(allTasks["tasks"], status);
         if(!doneTasks.length) return;

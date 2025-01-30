@@ -2,7 +2,7 @@ const {getAllTasks, writeInFile} = require("./data-base-json");
 const { validTaskExists } = require("./valid-task");
 
 class TaskStatus {
-    #updateTaskStatus(taskId, status)  {
+    #updateTaskStatus = (taskId, status) => {
         const allTasks = JSON.parse(getAllTasks());
         const findTask = validTaskExists(taskId, allTasks["tasks"]);
         findTask.status = status;
@@ -11,7 +11,7 @@ class TaskStatus {
         writeInFile(allTasks);
     }
 
-    markTaskInProgress(taskId) {
+    markTaskInProgress = (taskId) => {
         try {
             this.#updateTaskStatus(taskId, "in-progress");
             console.log("task marked in progress")
@@ -20,7 +20,7 @@ class TaskStatus {
         }
     }
 
-    markTaskDone(taskId) {
+    markTaskDone = (taskId) => {
         try {
             this.#updateTaskStatus(taskId, "done");
             console.log("task marked done");

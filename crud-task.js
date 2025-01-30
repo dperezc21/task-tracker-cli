@@ -6,12 +6,12 @@ class CrudTask {
         return { description, status, createdAt: new Date(), updatedAt: new Date() }
     }
 
-    #newTaskId(tasks) {
+    #newTaskId = (tasks) => {
         if(!tasks?.length) return 1;
         return tasks.at(-1).id + 1;
     }
 
-    addTask(description) {
+    addTask = (description) => {
         validIfExistsFile();
         const task = this.#buildTask(description);
         let allTasks = getAllTasks() ? JSON.parse(getAllTasks()) : { "tasks" : [] };
@@ -22,7 +22,7 @@ class CrudTask {
         console.log(`Task added successfully (ID: ${task.id})`);
     }
 
-    updateTask(taskId, description) {
+    updateTask = (taskId, description) => {
         try {
             const allTasks = JSON.parse(getAllTasks());
             const findTask = validTaskExists(taskId, allTasks["tasks"]);
@@ -36,7 +36,7 @@ class CrudTask {
         }
     }
 
-    deleteTask(taskId) {
+    deleteTask = (taskId) => {
         const allTasks = JSON.parse(getAllTasks());
         allTasks["tasks"] = allTasks["tasks"].filter(value => value.id != taskId);
         writeInFile(allTasks);
